@@ -32,6 +32,17 @@ namespace LibraryAPI
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             } );
 
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1",
+                new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "LibraryAPI Swagger",
+                    Description = "Swagger for showing LibraryAPI",
+                    Version = "v1"
+                });
+            });
+
             services.AddDbContext<LibraryContext>(options => options.UseSqlServer(config.GetConnectionString("libCs")));
         }
 
@@ -51,6 +62,14 @@ namespace LibraryAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "LibraryAPI Swagger");
+                options.RoutePrefix = "";
             });
         }
     }
