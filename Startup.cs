@@ -28,7 +28,9 @@ namespace LibraryAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(options =>
-              options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            } );
 
             services.AddDbContext<LibraryContext>(options => options.UseSqlServer(config.GetConnectionString("libCs")));
         }

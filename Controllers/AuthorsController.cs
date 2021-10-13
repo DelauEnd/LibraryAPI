@@ -32,12 +32,12 @@ namespace LibraryAPI.Controllers
         // GET: api/Authors/Books/5
         [HttpGet]
         [Route("Books/{id}")]
-        public async Task<ActionResult<IEnumerable<Book>>> GetAuthorBooks(int id)
+        public async Task<ActionResult<IEnumerable<Object>>> GetAuthorBooks(int id)
         {
             if (!AuthorExists(id))
                 return StatusCode(StatusCodes.Status404NotFound, new { Status = "Error", Message = "Author not found" });
 
-            var books = await db.Books.AsNoTracking().Where(book => book.Authors.Any(author => author.AuthorId == id)).ToListAsync();
+            var books = await db.Books.AsNoTracking().Where(book => book.Authors.Any(author => author.AuthorId == id)).Select(x=>x.Title).ToListAsync();
             if (!books.Any())
                 return StatusCode(StatusCodes.Status204NoContent, new { Status = "Success", Message = "Author has no books" });
 

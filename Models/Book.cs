@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LibraryAPI.Models
 {
@@ -19,6 +17,7 @@ namespace LibraryAPI.Models
         [DefaultValue("DateTime.Now")]
         public DateTime PublicationDate { get; set; }
 
+        [JsonIgnore]
         public List<Author> Authors { get; set; } = new List<Author>();
     }
 }

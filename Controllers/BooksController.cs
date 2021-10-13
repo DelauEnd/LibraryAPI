@@ -31,19 +31,18 @@ namespace LibraryAPI.Controllers
 
         // GET: api/Books/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> GetBook(int id)
+        public async Task<ActionResult<Object>> GetBookAsync(int id)
         {
             if (!BookExists(id))
                 return StatusCode(StatusCodes.Status404NotFound, new { Status = "Error", Message = "Book not found" });
 
-            //TODO: Переделать под вывод только фамилий авторов
-            var book = await db.Books.AsNoTracking().Include(book => book.Authors).FirstOrDefaultAsync(book => book.BookId == id);
+            var book = await db.Books.AsNoTracking().Include(book => book.Authors).Where(book => book.BookId == id).Select(x => new { x.Title, x.PublicationDate, Authors = x.Authors.Select(author => author.Surname).ToList() }).FirstOrDefaultAsync();
 
-            return book;
+            return book; ;
         }
- 
+
         // POST: api/Books
-         [HttpPost]
+        [HttpPost]
         public async Task<ActionResult<Book>> PostBook(Book book)
         {
             if (book == null)

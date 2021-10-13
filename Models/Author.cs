@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LibraryAPI.Models
 {
@@ -14,6 +11,7 @@ namespace LibraryAPI.Models
         [Required]
         public string Surname { get; set; }
 
+        [JsonIgnore]
         public List<Book> Books { get; set; } = new List<Book>();
     }
 }
